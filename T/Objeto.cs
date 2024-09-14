@@ -46,6 +46,40 @@ namespace T
             }
             return null;
         }
+
+        public Dictionary<String, Parte> GetListaDeParte()
+        {
+            return Partes;
+        }
+
+        public Parte GetParte(string key)
+        {
+            return Partes[key];
+        }
+
+        public void Rotar(double x, double y, double z)
+        {
+            foreach (var parte in Partes)
+            {
+                parte.Value.Rotar(x, y, z);
+            }
+        }
+
+        public void Trasladar(double x, double y, double z)
+        {
+            foreach (var parte in Partes)
+            {
+                parte.Value.Trasladar(x, y, z);
+            }
+        }
+
+        public void Escalar(double x, double y, double z)
+        {
+            foreach (var parte in Partes)
+            {
+                parte.Value.Escalar(x, y, z);
+            }
+        }
         public void Dibujar(Punto centroMasaO) 
         {
             Punto nCentroMasa = centroMasaO + CentroMasa;

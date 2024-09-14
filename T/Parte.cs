@@ -46,6 +46,30 @@ namespace T
             return null;
         }
 
+        public void Rotar(double x, double y, double z)
+        {
+            foreach (var p in Poligonos)
+            {
+                p.Value.Rotar(x, y, z);
+            }
+        }
+
+        public void Trasladar(double x, double y, double z)
+        {
+            foreach (var p in Poligonos)
+            {
+                p.Value.Trasladar(x, y, z);
+            }
+        }
+
+        public void Escalar(double x, double y, double z)
+        {
+            foreach (var p in Poligonos)
+            {
+                p.Value.Escalar(x, y, z);
+            }
+        }
+
         public void Dibujar(Punto centroMasaP)
         {
             Punto nuevoCentroMasa = centroMasaP + centroMasa;

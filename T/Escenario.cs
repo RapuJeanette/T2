@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenTK;
 
@@ -61,6 +62,34 @@ namespace T
             return null;
         }
 
+        public Objeto GetObjeto(String key)
+        {
+            return Objeto[key];
+        }
+
+        public void Rotar(double x, double y, double z)
+        {
+            foreach (var objeto in Objeto)
+            {
+                objeto.Value.Rotar(x, y, z);
+            }
+        }
+
+        public void Trasladar(double x, double y, double z)
+        {
+            foreach (var objeto in Objeto)
+            {
+                objeto.Value.Trasladar(x, y, z);
+            }
+        }
+
+        public void Escalar(double x, double y, double z)
+        {
+            foreach (var objeto in Objeto)
+            {
+                objeto.Value.Escalar(x, y, z);
+            }
+        }
         public void Dibujar()
         {
             foreach (var objeto in Objeto.Values)

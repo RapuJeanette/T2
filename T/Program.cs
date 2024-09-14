@@ -14,9 +14,14 @@ namespace T
         [STAThread]
         static void Main()
         {
-            Console.WriteLine("Hello World");
+            /*Console.WriteLine("Hello World");
             Game game = new Game(800, 600, "LearnOpenTK");
-            game.Run(60.0);
+            game.Run(60.0);*/
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Form1 form = new Form1();
+            Application.Run(form);
         }
     }
 }
