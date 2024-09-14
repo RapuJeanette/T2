@@ -4,25 +4,30 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace T
 {
-    public class Objeto
+    class Objeto
     {
         public Dictionary<string, Parte> Partes {  get; set; }
-        public Vector3 CentroMasa { get; set; }
+        public Punto CentroMasa { get; set; }
   
-        public Objeto(Vector3 centroMasa) 
+        public Objeto(Punto centroMasa) 
         {
             Partes = new Dictionary<string, Parte>();
             CentroMasa = centroMasa;
         }
+        public Punto GetCentro()
+        {
+            return CentroMasa;
+        }
 
         public void Agregar(string nombre, Parte parte)
         {
-            Partes[nombre] = parte;
+            Partes.Add(nombre, parte);
         }
 
         public void Quitar(string nombre)
@@ -41,14 +46,13 @@ namespace T
             }
             return null;
         }
-        public void Dibujar(Vector3 centroMasaO) 
+        public void Dibujar(Punto centroMasaO) 
         {
-            Vector3 nCentroMasa = centroMasaO + CentroMasa;
+            Punto nCentroMasa = centroMasaO + CentroMasa;
             foreach (var parte in Partes.Values)
             {
                 parte.Dibujar(nCentroMasa);
             }
-
 
         }
 

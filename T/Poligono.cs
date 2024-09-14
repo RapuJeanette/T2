@@ -4,30 +4,37 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace T
 {
-    public class Poligono
+    class Poligono
     {
-        public List<Vector3> Puntos { get; set; }
-        public Vector3 centroMasa { get; set; }
+        public List<Punto> puntos;
+        public Punto centroMasa;
+        public Color Color;
 
-        public Poligono (List<Vector3> puntos, Vector3 centroMasa)
+        public Poligono (List<Punto> punto, Punto centroMasa)
         {
-            Puntos = puntos;
+            this.puntos = punto;
             this.centroMasa = centroMasa;
         }
 
-        public void Dibujar (Vector3 centroMasaP)
+        public Punto GetCentro()
         {
-            Vector3 centroMasaN = centroMasaP + centroMasa;
+            return centroMasa;
+        }
+
+        public void Dibujar (Punto centroMasaP)
+        {
+            Punto centroMasaN = centroMasaP + centroMasa;
             GL.Begin(PrimitiveType.Polygon);
-            GL.Color4(Color.Black);
-            foreach(var punto in Puntos)
+            GL.Color4(Color.Brown);
+            foreach(var punto in puntos)
             {
-                GL.Vertex3(punto);
+                GL.Vertex3(punto.X + centroMasaN.X, punto.Y + centroMasaN.Y, punto.Z + centroMasaN.Z);
             }
             GL.End();
         }
