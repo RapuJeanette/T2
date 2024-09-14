@@ -1,24 +1,48 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenTK;
 
 namespace T
 {
-    public class Escenario
+    class Escenario
     {
         public Dictionary<string, Objeto> Objeto { get; set; }
-        public Vector3 CentroMasa { get; set; }
+        public Punto CentroMasa { get; set; }
 
-        public Escenario(Vector3 centroMasa)
+        public Escenario(Punto centroMasa)
         {
             Objeto = new Dictionary<string, Objeto>();
             CentroMasa = centroMasa;
-            InicializarObjetos();
+        }
+
+        public Escenario(Dictionary<string, Objeto> deObjetos, Punto centro)
+        {
+            this.Objeto = deObjetos;
+            this.CentroMasa = centro;
+
+            foreach (var objeto in deObjetos)
+            {
+                Punto nuevoCentrObjeto = objeto.Value.GetCentro() + CentroMasa;
+                objeto.Value.CentroMasa = nuevoCentrObjeto;
+
+                foreach (var parte in objeto.Value.Partes)
+                {
+                    Punto nuevoCentroParte = parte.Value.GetCentro() + nuevoCentrObjeto;
+                    parte.Value.centroMasa = nuevoCentroParte;
+
+                    foreach (var poligono in parte.Value.Poligonos)
+                    {
+                        Punto nuevoCentroPoligono = poligono.Value.GetCentro() + nuevoCentroParte;
+                        poligono.Value.centroMasa = nuevoCentroPoligono;
+                    } 
+                }
+            }
         }
 
         public void Agregar(string nombre, Objeto objeto)
         {
-            Objeto[nombre] = objeto;
+            Objeto.Add(nombre, objeto);
         }
 
         public void Quitar(string nombre)
@@ -38,88 +62,40 @@ namespace T
             return null;
         }
 
+        public Objeto GetObjeto(String key)
+        {
+            return Objeto[key];
+        }
+
+        public void Rotar(double x, double y, double z)
+        {
+            foreach (var objeto in Objeto)
+            {
+                objeto.Value.Rotar(x, y, z);
+            }
+        }
+
+        public void Trasladar(double x, double y, double z)
+        {
+            foreach (var objeto in Objeto)
+            {
+                objeto.Value.Trasladar(x, y, z);
+            }
+        }
+
+        public void Escalar(double x, double y, double z)
+        {
+            foreach (var objeto in Objeto)
+            {
+                objeto.Value.Escalar(x, y, z);
+            }
+        }
         public void Dibujar()
         {
             foreach (var objeto in Objeto.Values)
             {
                 objeto.Dibujar(CentroMasa);
             }
-        }
-
-        private void InicializarObjetos()
-        {
-            Objeto t = new Objeto(new Vector3(0.3f, -0.9f, -0.05f));
-            Parte parte = new Parte(new Vector3(0, 1, 0));
-            Poligono adelante = new Poligono(new List<Vector3>
-            {
-                new Vector3(0.0f, 0.6f, 0.0f),
-                new Vector3(0.0f, 0.0f, 0.0f),
-                new Vector3(0.2f, 0.0f, 0.0f),
-                new Vector3(0.2f, 0.6f, 0.0f),
-                new Vector3(0.4f, 0.6f, 0.0f),
-                new Vector3(0.4f, 0.8f, 0.0f),
-                new Vector3(-0.2f, 0.8f, 0.0f),
-                new Vector3(-0.2f, 0.6f, 0.0f)
-            }, new Vector3(0.5f, 0.5f, 0));
-
-            Parte parte2 = new Parte(new Vector3(0, 0, 0));
-            Poligono atras = new Poligono(new List<Vector3>
-            {
-                new Vector3(0.0f, 0.6f, 0.2f),
-                new Vector3(0.0f, 0.0f, 0.2f),
-                new Vector3(0.2f, 0.0f, 0.2f),
-                new Vector3(0.2f, 0.6f, 0.2f),
-                new Vector3(0.4f, 0.6f, 0.2f),
-                new Vector3(0.4f, 0.8f, 0.2f),
-                new Vector3(-0.2f, 0.8f, 0.2f),
-                new Vector3(-0.2f, 0.6f, 0.2f)
-            }, new Vector3(0,0,0.2f));
-
-            Parte parte3 = new Parte(new Vector3(0, 0, 0));
-            Poligono ladoI = new Poligono(new List<Vector3>
-            {
-                new Vector3(0.0f, 0.0f, 0.2f),
-                new Vector3(0.0f, 0.0f, 0.0f),
-                new Vector3(0.0f, 0.6f, 0.0f),
-                new Vector3(0.0f, 0.6f, 0.2f),
-            }, new Vector3(0, 0, 0.2f));
-
-            Poligono ladoIz = new Poligono(new List<Vector3>
-            {
-                new Vector3(-0.2f, 0.8f, 0.2f),
-                new Vector3(-0.2f, 0.8f, 0.0f),
-                new Vector3(-0.2f, 0.6f, 0.0f),
-                new Vector3(-0.2f, 0.6f, 0.2f),
-            }, new Vector3(0, 0, 0.2f));
-
-            Parte parte4 = new Parte(new Vector3(0, 0, 0));
-            Poligono ladoD = new Poligono(new List<Vector3>
-            {
-                new Vector3(0.2f, 0.0f, 0.2f),
-                new Vector3(0.2f, 0.0f, 0.0f),
-                new Vector3(0.2f, 0.6f, 0.0f),
-                new Vector3(0.2f, 0.6f, 0.2f),
-            }, new Vector3(0, 0, 0.2f));
-
-            Poligono ladoDe = new Poligono(new List<Vector3>
-            {
-                new Vector3(0.4f, 0.8f, 0.2f),
-                new Vector3(0.4f, 0.8f, 0.0f),
-                new Vector3(0.4f, 0.6f, 0.0f),
-                new Vector3(0.4f, 0.6f, 0.2f),
-            }, new Vector3(0, 0, 0.2f));
-
-            parte.Agregar("poligono1", adelante);
-            parte2.Agregar("poligono2", atras);
-            parte3.Agregar("poligono3", ladoD);
-            parte3.Agregar("poligono4", ladoDe);
-            parte4.Agregar("poligono5", ladoI);
-            parte4.Agregar("poligono6", ladoIz);
-            t.Agregar("parte1", parte);
-            t.Agregar("parte2", parte2);
-            t.Agregar("parte3", parte3);
-            t.Agregar("parte4", parte4);
-            Agregar("t", t);
         }
     }
 }

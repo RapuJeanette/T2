@@ -10,9 +10,9 @@ using OpenTK.Graphics.OpenGL;
 
 namespace T
 {
-    public class Game: GameWindow
+    class Game: GameWindow
     {
-       
+        public Escenario escenario;
         public Game(int width, int height, string title) : base(width, height, GraphicsMode.Default, title) { }
 
         protected override void OnLoad(EventArgs e)
@@ -22,7 +22,7 @@ namespace T
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            GL.Rotate(1.0f, 0.0f, 1.0f, 0.0f);
+           // GL.Rotate(1.0f, 0.0f, 1.0f, 0.0f);
             base.OnUpdateFrame(e);
         }
 
@@ -33,8 +33,14 @@ namespace T
             GL.Enable(EnableCap.DepthTest);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            Escenario escenario = new Escenario(new Vector3(0, 0, 0));
-            escenario.Dibujar();
+           /* escenario = new Escenario(new Punto(0, 0, 0));
+            escenario.Agregar("t", Serializar<Objeto>.Cargar("../../Objetos/t.json"));
+            escenario.Dibujar();*/
+
+            if (escenario != null)
+            {
+                escenario.Dibujar();
+            }
 
             //GL.Flush(); //para limpiar
 
