@@ -33,10 +33,6 @@ namespace T
             GL.Enable(EnableCap.DepthTest);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-           /* escenario = new Escenario(new Punto(0, 0, 0));
-            escenario.Agregar("t", Serializar<Objeto>.Cargar("../../Objetos/t.json"));
-            escenario.Dibujar();*/
-
             if (escenario != null)
             {
                 escenario.Dibujar();

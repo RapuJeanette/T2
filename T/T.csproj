@@ -41,6 +41,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Escena.cs" />
     <Compile Include="Escenario.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -60,6 +65,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Game.cs" />
+    <Compile Include="Libreto.cs" />
     <Compile Include="Objeto.cs" />
     <Compile Include="Parte.cs" />
     <Compile Include="Poligono.cs" />
@@ -79,6 +85,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Objetos\pelota.json" />
+    <None Include="Objetos\persona.json" />
     <None Include="Objetos\t.json" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />

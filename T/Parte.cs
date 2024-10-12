@@ -24,6 +24,11 @@ namespace T
         {
             return centroMasa;
         }
+
+        public float DistanciaAPunto(Punto otro)
+        {
+            return centroMasa.Distancia(otro);
+        }
         public void Agregar(string nombre, Poligono poligono)
         {
             Poligonos.Add(nombre, poligono);

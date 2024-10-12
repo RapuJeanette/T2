@@ -15,16 +15,28 @@ namespace T
     public partial class Form1 : Form
     {
         private Escenario escenario;
+        private Objeto t;
+        private Objeto t1;
+        private Objeto t2;
         Game game;
+        private bool enPausa = false;
+
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            escenario = new Escenario(new Punto(0, 0, 0));
-            escenario.Agregar("t", Serializar<Objeto>.Cargar("../../Objetos/t.json"));
+            t = Serializar<Objeto>.Cargar("../../Objetos/t.json");
+            t1 = Serializar<Objeto>.Cargar("../../Objetos/persona.json");
+            t2 = Serializar<Objeto>.Cargar("../../Objetos/pelota.json");
+            t2.Trasladar(-0.2, -0.45, 0.0);
+            escenario = new Escenario(new Punto(-1, 0, 0));
+            escenario.Agregar("t", t);
+            escenario.Agregar("persona", t1);
+            escenario.Agregar("pelota1", t2);
 
             Thread correr = new Thread(Ejecutar);
             correr.Start();
@@ -44,10 +56,6 @@ namespace T
             game.Run();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void ActualizarInformacionObjetos()
         {
@@ -88,7 +96,6 @@ namespace T
 
                     if (listBox2.SelectedItem.ToString() == "Objeto")
                     {
-                        // Escalar el objeto completo
                         objeto.Escalar(factorEscala.X, factorEscala.Y, factorEscala.Z);
                     }
                     else
@@ -117,18 +124,16 @@ namespace T
         {
             float factorEscalaX, factorEscalaY, factorEscalaZ;
 
-            // Intenta convertir el texto del cuadro de texto en un número flotante
             if (float.TryParse(textBox1.Text, out factorEscalaX) &&
-                float.TryParse(textBox1.Text, out factorEscalaY) &&
-                float.TryParse(textBox1.Text, out factorEscalaZ))
+                float.TryParse(textBox2.Text, out factorEscalaY) &&
+                float.TryParse(textBox3.Text, out factorEscalaZ))
             {
-                // Devuelve el factor de escala si la conversión fue exitosa
                 return new Vector3(factorEscalaX, factorEscalaY, factorEscalaZ);
             }
             else
             {
                 MessageBox.Show("Factor de escala inválido. Por favor ingrese un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return Vector3.One; // Valor predeterminado de factor de escala
+                return Vector3.One;
             }
 
         }
@@ -221,6 +226,11 @@ namespace T
             }
         }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private Vector3 ObtenerAngulosRotacion()
         {
             float anguloX, anguloY, anguloZ;
@@ -239,9 +249,119 @@ namespace T
             }
         }
 
+
+
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            CrearAnimacion(14);
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            enPausa = !enPausa; 
+
+            if (enPausa)
+            {
+                Console.WriteLine("El juego está en pausa.");
+            }
+            else
+            {
+                Console.WriteLine("El juego se reanuda.");
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void CrearAnimacion(int repeticiones)
+        {
+            Libreto caminata = new Libreto();
+
+            for (int i = 0; i < repeticiones; i++)
+            {
+                caminata.AgregarEscena(new Escena(escenario =>
+                {
+                    var piernaDerecha = escenario.Objeto["persona"].Partes["piernaDerecha"];
+                    var piernaIzquierda = escenario.Objeto["persona"].Partes["piernaIzquierda"];
+
+                    piernaDerecha.Trasladar(0, -0.01f, 0); 
+                    piernaIzquierda.Trasladar(0, 0.01f, 0); 
+
+                    escenario.Objeto["persona"].Trasladar(-0.05f, 0, 0);
+                }));
+
+                caminata.AgregarEscena(new Escena(escenario =>
+                {
+                    var piernaDerecha = escenario.Objeto["persona"].Partes["piernaDerecha"];
+                    var piernaIzquierda = escenario.Objeto["persona"].Partes["piernaIzquierda"];
+
+                    piernaDerecha.Trasladar(0, 0.01f, 0); 
+                    piernaIzquierda.Trasladar(0, -0.01f, 0);
+
+                    escenario.Objeto["persona"].Trasladar(-0.05f, 0, 0);
+                }));
+            }
+
+            caminata.AgregarEscena(new Escena(escenario =>
+            {
+                var persona = escenario.Objeto["persona"];
+
+                persona.Trasladar(0, 0.8f, 0);
+                persona.Trasladar(0, 0.1f, 0);
+
+                var piernaDerecha = persona.Partes["piernaDerecha"];
+                var piernaIzquierda = persona.Partes["piernaIzquierda"];
+
+                piernaDerecha.Trasladar(0, -0.02f, 0); 
+                piernaIzquierda.Trasladar(0, -0.02f, 0); 
+
+                persona.Trasladar(-0.3f, 0, 0); 
+            }));
+
+            caminata.AgregarEscena(new Escena(escenario =>
+            {
+                var persona = escenario.Objeto["persona"];
+
+                persona.Trasladar(-0.3f, 0, 0); 
+
+                var pelota = escenario.Objeto["pelota1"];
+                pelota.Trasladar(-0.3f, 0, 0); 
+                pelota.Trasladar(0, 0.2f, 0); 
+            }));
+
+            caminata.AgregarEscena(new Escena(escenario =>
+            {
+                var pelota = escenario.Objeto["pelota1"];
+
+                pelota.Trasladar(-0.1, -0.9f, 0);
+            }));
+
+            caminata.EjecutarLibreto(escenario);
         }
     }
 }

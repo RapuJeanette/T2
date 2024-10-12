@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using OpenTK;
 
 namespace T
 {
@@ -90,6 +88,7 @@ namespace T
                 objeto.Value.Escalar(x, y, z);
             }
         }
+
         public void Dibujar()
         {
             foreach (var objeto in Objeto.Values)

@@ -80,6 +80,11 @@ namespace T
                 parte.Value.Escalar(x, y, z);
             }
         }
+
+        public float DistanciaAPunto(Punto otro)
+        {
+            return CentroMasa.Distancia(otro);
+        }
         public void Dibujar(Punto centroMasaO) 
         {
             Punto nCentroMasa = centroMasaO + CentroMasa;
